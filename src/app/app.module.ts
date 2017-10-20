@@ -4,17 +4,40 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
+import { UserComponent } from './user/user.component';
+import {UserService} from "./user/user.service";
+import {RouterModule, Routes} from "@angular/router";
+import {APP_BASE_HREF, HashLocationStrategy, LocationStrategy} from "@angular/common";
+
+
+
+const routes: Routes = [
+
+  {path: '', redirectTo: 'users', pathMatch: 'full' },
+  {path: 'users', component: UserComponent},
+];
+
 
 @NgModule({
+
   declarations: [
-    AppComponent
+    AppComponent,
+    UserComponent
   ],
+
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RouterModule.forRoot(routes)
   ],
-  providers: [],
+
+  providers: [
+    {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {provide: APP_BASE_HREF, useValue: '/'},
+    UserService
+  ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }
