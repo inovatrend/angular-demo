@@ -1,15 +1,17 @@
-import { Injectable } from '@angular/core';
-import {Http} from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Headers, Http, URLSearchParams} from '@angular/http';
 import {Observable} from "rxjs/Observable";
-import {User} from "./user.model";
 import {environment} from "../../environments/environment";
 import "rxjs/add/operator/map";
 import {BehaviorSubject} from "rxjs/BehaviorSubject";
+import {User} from "./user.model";
 
 @Injectable()
 export class UserService {
 
   private listUsersUrl = environment.baseServerUrl + "/user/list";
+  private saveUserUrl = environment.baseServerUrl + "/user/save";
+  private deleteUserUrl = environment.baseServerUrl + "/user/delete";
 
   private userList_: BehaviorSubject<User[]> = new BehaviorSubject([]);
   public userList:Observable<User[]> = this.userList_.asObservable();
@@ -30,6 +32,25 @@ export class UserService {
         usrList => this.userList_.next(usrList),
         error => console.log("Failed to fetch users from server", error)
       );
+  }
+
+
+  public saveUser(user: User): Observable<User> {
+    let headers: Headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    let body = JSON.stringify(user);
+    return this.http.post(this.saveUserUrl, body, {headers}).map(resp => User.fromJson(resp.json()));
+  }
+
+
+  public deleteUser(user: User): Observable<string> {
+
+    console.log("Deleting user: ", user);
+
+    let params = new URLSearchParams();
+    params.set("userId", user.id.toString());
+
+    return this.http.get(this.deleteUserUrl, {search: params}).map(resp => resp.text());
   }
 
 }

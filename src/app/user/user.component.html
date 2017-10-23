@@ -3,11 +3,64 @@
 </h2>
 
 
-<table class="table">
-  <tr>
-    <th align="left">Username</th>
-  </tr>
-  <tr *ngFor="let user of users">
-    <td>{{user.username}}</td>
-  </tr>
-</table>
+<div class="container">
+  <div class="row">
+
+    <div class="col-4">
+
+      <button class="btn btn-primary" (click)="addNewUser()">Add user</button>
+      <ul class="nav flex-column">
+        <li *ngFor="let user of users" class="nav-item">
+          <a class="nav-link active" href="#" (click)="selectUser(user)">[{{user.id}}] {{user.username}}</a>
+        </li>
+      </ul>
+
+    </div>
+
+    <div class="col-8">
+
+      <div *ngIf="selectedUser" class="card">
+
+        <div class="card-body">
+
+
+          <h4 class="card-title">User details</h4>
+
+          <form [formGroup]="editUserForm"
+                (ngSubmit)="onSubmit()">
+
+            <div class="form-group">
+              <label for="username">Username</label>
+              <input type="text" class="form-control" id="username" placeholder="Enter username" [formControl]="editUserForm.controls['username']"/>
+            </div>
+
+            <div class="form-group">
+              <label for="firstName">First name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="Enter first name"
+                     [formControl]="editUserForm.controls['firstName']"/>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last name</label>
+              <input type="text" class="form-control" id="lastName" placeholder="Enter last name" [formControl]="editUserForm.controls['lastName']"/>
+            </div>
+
+            <div class="float-right">
+              <button type="button" class="btn btn-danger" (click)="deleteUser(selectedUser)">Delete</button>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+
+          </form>
+
+          <div *ngIf="infoMessage" class="alert alert-success alert-dismissible" role="alert">
+            {{infoMessage}}
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
