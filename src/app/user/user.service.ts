@@ -50,5 +50,4 @@ export class UserService {
 
     return this.http.get(this.deleteUserUrl, {search: params}).map(resp => resp.text());
   }
-
 }
