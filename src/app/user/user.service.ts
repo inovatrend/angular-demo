@@ -45,8 +45,6 @@ export class UserService {
 
   public deleteUser(user: User): Observable<string> {
 
-    console.log("Deleting user: ", user);
-
     let params = new URLSearchParams();
     params.set("userId", user.id.toString());
 
