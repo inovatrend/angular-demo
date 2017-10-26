@@ -1,0 +1,44 @@
+<button class="btn btn-sm btn-secondary float-right" (click)="addNewUser()">Add new user</button>
+
+<h2>
+  Users 2
+</h2>
+
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <table class="table table-sm table-hover">
+        <tr *ngFor="let user of users" [ngClass]="{'table-info': selectedUser != null && selectedUser.id == user.id}">
+          <td (click)="selectUser(user)">[{{user.id}}] {{user.username}}</td>
+        </tr>
+      </table>
+
+    </div>
+
+    <div class="col-8">
+
+      <app-edit-user [user]="selectedUser"
+                     (userSaved)="handleSaveSuccessEvent($event)"
+                     (userDeleted)="handleDeleteSuccessEvent($event)"
+                     (userSaveFailed)="handleSaveFailedEvent($event)"
+                     (userDeleteFailed)="handleDeleteFailedEvent($event)">
+      </app-edit-user>
+
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible" role="alert">
+        {{successMessage}}
+      </div>
+
+      <div *ngIf="failureMessage" class="alert alert-danger alert-dismissible" role="alert">
+        {{failureMessage}}
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+

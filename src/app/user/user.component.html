@@ -1,3 +1,5 @@
+<button class="btn btn-sm btn-secondary float-right" (click)="addNewUser()">Add new user</button>
+
 <h2>
   Users
 </h2>
@@ -8,12 +10,11 @@
 
     <div class="col-4">
 
-      <button class="btn btn-primary" (click)="addNewUser()">Add user</button>
-      <ul class="nav flex-column">
-        <li *ngFor="let user of users" class="nav-item">
-          <a class="nav-link active" href="#" (click)="selectUser(user)">[{{user.id}}] {{user.username}}</a>
-        </li>
-      </ul>
+      <table class="table table-sm table-hover">
+        <tr *ngFor="let user of users" [ngClass]="{'table-info': selectedUser != null && selectedUser.id == user.id}">
+          <td (click)="selectUser(user)">[{{user.id}}] {{user.username}}</td>
+        </tr>
+      </table>
 
     </div>
 
@@ -22,7 +23,6 @@
       <div *ngIf="selectedUser" class="card">
 
         <div class="card-body">
-
 
           <h4 class="card-title">User details</h4>
 
@@ -52,11 +52,16 @@
 
           </form>
 
-          <div *ngIf="infoMessage" class="alert alert-success alert-dismissible" role="alert">
-            {{infoMessage}}
-          </div>
-
         </div>
+      </div>
+
+
+      <div *ngIf="successMessage" class="alert alert-success alert-dismissible" role="alert">
+        {{successMessage}}
+      </div>
+
+      <div *ngIf="failureMessage" class="alert alert-danger alert-dismissible" role="alert">
+        {{failureMessage}}
       </div>
 
     </div>

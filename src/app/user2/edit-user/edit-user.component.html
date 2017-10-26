@@ -1,0 +1,39 @@
+<div *ngIf="user" class="card">
+
+  <div class="card-body">
+
+
+    <h4 class="card-title">User details</h4>
+
+    <form [formGroup]="editUserForm"
+          (ngSubmit)="onSubmit()">
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" id="username" placeholder="Enter username" [formControl]="editUserForm.controls['username']"/>
+      </div>
+
+      <div class="form-group">
+        <label for="firstName">First name</label>
+        <input type="text" class="form-control" id="firstName" placeholder="Enter first name"
+               [formControl]="editUserForm.controls['firstName']"/>
+      </div>
+
+      <div class="form-group">
+        <label for="lastName">Last name</label>
+        <input type="text" class="form-control" id="lastName" placeholder="Enter last name" [formControl]="editUserForm.controls['lastName']"/>
+      </div>
+
+      <div class="float-right">
+        <button type="button" class="btn btn-danger" (click)="deleteUser(selectedUser)">Delete</button>
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+

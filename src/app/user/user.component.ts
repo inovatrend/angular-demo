@@ -16,7 +16,9 @@ export class UserComponent implements OnInit {
 
   private editUserForm: FormGroup;
 
-  public infoMessage: string = null;
+  public successMessage: string = null;
+
+  public failureMessage: string = null;
 
   constructor(private formBuilder: FormBuilder, private userService: UserService) {
 
@@ -57,11 +59,16 @@ export class UserComponent implements OnInit {
         .subscribe(
           savedUser => {
             console.log("User saved", savedUser);
+            this.selectUser(savedUser);
             this.userService.fetchUsers();
-            this.infoMessage = "User data saved successfully!";
-            setTimeout(() => this.resetInfoMessage(), 2000);
+            this.successMessage = "User data saved successfully!";
+            setTimeout(() => this.resetSuccessMessage(), 2000);
           },
-          error => console.log("Failed to save user", error)
+          error => {
+            console.log("Failed to save user", error);
+            this.failureMessage = "User data save failed!";
+            setTimeout(() => this.resetFailureMessage(), 2000);
+          }
         )
     }
   }
@@ -72,21 +79,33 @@ export class UserComponent implements OnInit {
       result => {
         let success = (result.toLowerCase().trim() == 'true');
         if (success) {
+          this.successMessage = "User " + user.username + " deleted successfully!";
+          setTimeout(() => this.resetSuccessMessage(), 2000);
           this.userService.fetchUsers();
           console.log("User deleted successfully");
+          this.selectUser(null);
         }
       },
-      error => console.log("Failed to delete user")
+      error => {
+        console.log("Failed to delete user", error);
+        this.failureMessage = "User delete failed: " + user.username;
+        setTimeout(() => this.resetFailureMessage(), 2000);
+      }
     )
   }
 
-  public addNewUser() {
+  public addNewUser(): boolean {
     let newUser = new User(0, "new user", "", "", 0);
     this.selectUser(newUser);
+    return false;
   }
 
-  public resetInfoMessage() {
-    this.infoMessage = null;
+  public resetSuccessMessage() {
+    this.successMessage = null;
+  }
+
+  public resetFailureMessage() {
+    this.failureMessage = null;
   }
 
 }
