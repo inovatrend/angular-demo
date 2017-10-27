@@ -10,6 +10,8 @@ import {RouterModule, Routes} from "@angular/router";
 import {APP_BASE_HREF, HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {UserComponent2} from "./user2/user/user.component";
 import {EditUserComponent} from './user2/edit-user/edit-user.component';
+import {PostComponent} from './post/post/post.component';
+import {PostService} from "./post/post.service";
 
 
 const routes: Routes = [
@@ -17,6 +19,7 @@ const routes: Routes = [
   {path: '', redirectTo: 'users', pathMatch: 'full' },
   {path: 'users', component: UserComponent},
   {path: 'users2', component: UserComponent2},
+  {path: 'posts', component: PostComponent},
 ];
 
 
@@ -26,7 +29,8 @@ const routes: Routes = [
     AppComponent,
     UserComponent,
     UserComponent2,
-    EditUserComponent
+    EditUserComponent,
+    PostComponent
   ],
 
   imports: [
@@ -40,7 +44,8 @@ const routes: Routes = [
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     {provide: APP_BASE_HREF, useValue: '/'},
-    UserService
+    UserService,
+    PostService
   ],
 
   bootstrap: [AppComponent]

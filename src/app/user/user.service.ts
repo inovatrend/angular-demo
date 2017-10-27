@@ -44,10 +44,8 @@ export class UserService {
 
 
   public deleteUser(user: User): Observable<string> {
-
     let params = new URLSearchParams();
     params.set("userId", user.id.toString());
-
     return this.http.get(this.deleteUserUrl, {search: params}).map(resp => resp.text());
   }
 }
